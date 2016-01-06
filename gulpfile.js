@@ -22,13 +22,16 @@ gulp.task('build', function () {
           extensions: ['.coffee', '.js'],
           debug: true
         })
+  .plugin('licensify')
   .transform('coffeeify')
   .bundle()
   .on('error', errHandler)
   .pipe(source('main.js'))
   .pipe(buffer())
   .pipe(gulp.dest('./dest'))
-  .pipe(uglify())
+  .pipe(uglify({
+    preserveComments: 'license'
+  }))
   .pipe(rename({suffix:'.min'}))
   .pipe(gulp.dest('./dest'));
 });
